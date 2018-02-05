@@ -14,7 +14,7 @@ namespace Tetris
         private static Stopwatch dropTimer = new Stopwatch();
         static int dropTime, dropRate = 500;
         static Polyomino poly = new Polyomino();
-        static Grid grid = new Grid(10, 23);
+        static Grid grid = new Grid(18, 23);
 
         static void Main(string[] args)
         {

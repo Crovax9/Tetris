@@ -16,9 +16,10 @@ namespace Tetris
         private readonly int[,] jMino = new int[2, 3] { { 1, 0, 0 }, { 1, 1, 1 } };
         private readonly int[,] lMino = new int[2, 3] { { 0, 0, 1 }, { 1, 1, 1 } };
         public int[,] selectedShape;
-        //int[,] location = new int[18, 23];//GameGrid
         int[,] grid = new int[18, 23];
+        int[,] fillGrid = new int[18, 23];
         public List<int[]> location = new List<int[]>();
+
 
         public Polyomino()
         {
@@ -82,9 +83,12 @@ namespace Tetris
         {
             if (IsSomthingBelow())
             {
-               
-
-
+                for (int i = 0; i < 4; ++i)
+                {
+                    fillGrid[location[i][0], location[i][1]] = 1;
+                }
+                location.Clear();
+                Spawn();
             }
             else
             {
@@ -114,7 +118,7 @@ namespace Tetris
                 for (int j = 0; j < 15; j++)
                 {
                     Console.SetCursorPosition(j + 2, i);
-                    if (grid[j, i] == 1)
+                    if (grid[j, i] == 1 | fillGrid[j, i] == 1)
                     {
                         Console.SetCursorPosition(j, i);
                         Console.Write("□");
@@ -132,15 +136,17 @@ namespace Tetris
         {
             for (int i = 0; i < 4; ++i)
             {
-                if (location[i][1] + 1 >= 22)
+                if (location[i][1] + 1 >= 23)
                     return true;
-                if (location[i][1] + 1 < 22)
+                if (location[i][1] + 1 < 23)
                 {
-                    return false;
+                    if (fillGrid[location[i][0], location[i][1] + 1] == 1)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
-
         }
         
     }

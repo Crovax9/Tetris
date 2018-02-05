@@ -40,9 +40,8 @@ namespace Tetris
                 Console.WriteLine(line);
             }
             Console.SetCursorPosition(0, 23);
-            for (int i = 0; i < gridX; ++i)
+            for (int i = 0; i < gridX / 2 + 1; ++i)
             {
-
                 Console.Write(line);
             }
             Console.WriteLine();
