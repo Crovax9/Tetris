@@ -110,12 +110,34 @@ namespace Tetris
                 ReDraw();
             }
         }
+
+        public void BlockMove(int vertical, int horizontal)
+        {
+            if (IsSomthingBelow())
+            {
+                for (int i = 0; i < 4; ++i)
+                {
+                    fillGrid[location[i][0], location[i][1]] = 1;
+                }
+                location.Clear();
+                Spawn();
+            }
+            else
+            {
+                for (int i = 0; i < 4; ++i)
+                {
+                    location[i][0] += horizontal;
+                    location[i][1] += vertical;
+                }
+            }
+            
+        }
         
         void ReDraw()
         {
             for (int i = 0; i < 23; ++i)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < 18; j++)
                 {
                     Console.SetCursorPosition(j + 2, i);
                     if (grid[j, i] == 1 | fillGrid[j, i] == 1)
@@ -125,10 +147,12 @@ namespace Tetris
                     }
                     else
                     {
-                        Console.Write(" ");
+                        if (j < 16)
+                        {
+                            Console.Write(" ");
+                        }
                     }
                 }
-
             }
         }
 
@@ -148,6 +172,5 @@ namespace Tetris
             }
             return false;
         }
-        
     }
 }

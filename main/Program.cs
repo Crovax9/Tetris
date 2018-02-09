@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Diagnostics;
 
+delegate void delegateKey(ConsoleKey type);
 namespace Tetris
 {
     
@@ -16,22 +17,34 @@ namespace Tetris
         static Polyomino poly = new Polyomino();
         static Grid grid = new Grid(18, 23);
 
+        private static Thread time;
+
+        private static KeyEvent keyEvent;
+
         static void Main(string[] args)
         {
+            time = new Thread(Init);
+            time.Start();
 
             timer.Start();
             dropTimer.Start();
-
 
             grid.DrawBoard();
             poly.Spawn();
 
             Update();
-
         }
-
+        
+        private static void Init()
+        {
+            keyEvent = new KeyEvent();
+            delegateKey uKey = userKey;
+            keyEvent.AddEventListener(uKey);
+        }
+        
         private static void Update()
         {
+
             while (true)//Update Loop
             {
                 dropTime = (int)dropTimer.ElapsedMilliseconds;
@@ -42,6 +55,25 @@ namespace Tetris
                     dropTimer.Restart();
                 }
             } //end Update
+        }
+
+        private static void userKey(ConsoleKey consoleKey)
+        {
+            switch (consoleKey)
+            {
+                case ConsoleKey.UpArrow:
+                    
+                    break;
+                case ConsoleKey.DownArrow:
+                    poly.BlockMove(1, 0);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    poly.BlockMove(0, -2);
+                    break;
+                case ConsoleKey.RightArrow:
+                    poly.BlockMove(0, 2);
+                    break;
+            }
         }
     }
 
