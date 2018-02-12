@@ -126,11 +126,20 @@ namespace Tetris
             {
                 for (int i = 0; i < 4; ++i)
                 {
-                    location[i][0] += horizontal;
                     location[i][1] += vertical;
+                    location[i][0] += horizontal;
+                    if (location[i][0] < 2)
+                    {
+                        for (int j = 0; j < 4; ++j)
+                            location[j][0] += 2;
+                    }
+                    else if (location[i][0] > 16)
+                    {
+                        for (int j = 0; j < 4; ++j)
+                            location[j][0] -= 2;
+                    }
                 }
             }
-            
         }
         
         void ReDraw()

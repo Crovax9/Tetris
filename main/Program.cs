@@ -17,14 +17,14 @@ namespace Tetris
         static Polyomino poly = new Polyomino();
         static Grid grid = new Grid(18, 23);
 
-        private static Thread time;
+        private static Thread playerInput;
 
         private static KeyEvent keyEvent;
 
         static void Main(string[] args)
         {
-            time = new Thread(Init);
-            time.Start();
+            playerInput = new Thread(Init);
+            playerInput.Start();
 
             timer.Start();
             dropTimer.Start();
