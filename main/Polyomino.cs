@@ -20,6 +20,8 @@ namespace Tetris
         int[,] fillGrid = new int[18, 23];
         public List<int[]> location = new List<int[]>();
 
+        private bool rotateDirection = false;
+
 
         public Polyomino()
         {
@@ -71,7 +73,7 @@ namespace Tetris
                     {
                         Console.SetCursorPosition(((10 - selectedShape.GetLength(1)) / 2 + j) * 2, i);
                         Console.Write("□");
-                        location.Add(new int[] { ((10 - selectedShape.GetLength(1)) / 2 + j) * 2, i });
+                        location.Add(new int[] { ((10 - selectedShape.GetLength(1)) / 2 + j) * 2, i});
 
                     }
                 }
@@ -109,6 +111,76 @@ namespace Tetris
                 }
                 ReDraw();
             }
+        }
+
+        public void BlockRotate()
+        {
+            List<int[]> templocation = new List<int[]>();
+            for (int i = 0; i < selectedShape.GetLength(0); i++)
+            {
+                for (int j = 0; j < selectedShape.GetLength(1); j++)
+                {
+                    if (selectedShape[i, j] == 1)
+                    {
+                        templocation.Add(new int[] { ((10 - selectedShape.GetLength(1)) / 2 + j) * 2, i });
+                    }
+                }
+            }
+
+            if (selectedShape == oMino)
+            {
+                return;
+            }
+            if (selectedShape == iMino)
+            {
+                if (rotateDirection == false)
+                {
+                    for (int i = 0; i < location.Count; i++)
+                    {
+                        templocation[i] = TransformMatrix(location[i], location[2], "Clockwise");
+                    }
+                    rotateDirection = true;
+                }
+                else
+                {
+                    for (int i = 0; i < location.Count; i++)
+                    {
+                        templocation[i] = TransformMatrix(location[i], location[2], "Counterclockwise");
+                    }
+                    rotateDirection = false;
+                }
+            }
+            else if (selectedShape == sMino)
+            {
+                for (int i = 0; i < location.Count; i++)
+                {
+                    templocation[i] = TransformMatrix(location[i], location[3], "Counterclockwise");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < location.Count; i++)
+                {
+                    templocation[i] = TransformMatrix(location[i], location[2], "Clockwise");
+                }
+            }
+            
+
+            location = templocation;
+        }
+
+        public int[] TransformMatrix(int[] coord, int[] axis, string dir)
+        {
+            int[] pcoord = { coord[0] - axis[0], coord[1] - axis[1] };
+            if (dir == "Counterclockwise")
+            {
+                pcoord = new int[] { -pcoord[1] * 2, pcoord[0] / 2 };
+            }
+            else if (dir == "Clockwise")
+            {
+                pcoord = new int[] { pcoord[1] * 2, -pcoord[0] / 2 };
+            }
+            return new int[] { pcoord[0] + axis[0], pcoord[1] + axis[1] };
         }
 
         public void BlockMove(int vertical, int horizontal)

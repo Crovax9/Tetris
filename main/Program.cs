@@ -62,7 +62,7 @@ namespace Tetris
             switch (consoleKey)
             {
                 case ConsoleKey.UpArrow:
-                    
+                    poly.BlockRotate();
                     break;
                 case ConsoleKey.DownArrow:
                     poly.BlockMove(1, 0);
