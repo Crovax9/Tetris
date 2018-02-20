@@ -164,10 +164,33 @@ namespace Tetris
                     templocation[i] = TransformMatrix(location[i], location[2], "Clockwise");
                 }
             }
-            
 
+            for (int i = 0; i < 4; ++i)
+            {
+                if (templocation[i][0] < 2)
+                {
+                    if (selectedShape == iMino)
+                    {
+                        for (int j = 0; j < 4; ++j)
+                            templocation[j][0] += 4;
+                    }
+                    else
+                    {
+                        for (int j = 0; j < 4; ++j)
+                            templocation[j][0] += 2;
+                    }
+                    
+                }
+                else if (templocation[i][0] > 16)
+                {
+                    for (int j = 0; j < 4; ++j)
+                        templocation[j][0] -= 2;
+                }
+            }
             location = templocation;
         }
+
+
 
         public int[] TransformMatrix(int[] coord, int[] axis, string dir)
         {
