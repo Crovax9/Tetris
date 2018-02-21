@@ -276,5 +276,47 @@ namespace Tetris
             }
             return false;
         }
+
+        public void BlockClear()
+        {
+            int[,] tempGrid = new int[18, 23];
+            for (int i = 0; i < 23; ++i)
+            {
+                int j = 2;
+                for (j = 2; j < 18; j += 2)
+                {
+                    if (fillGrid[j, i] == 0)
+                    {
+                        break;
+                    }
+                }
+                if (j == 18)
+                {
+                    for (j = 2; j < 18; j += 2)
+                    {
+                        fillGrid[j, i] = 0;
+                    }
+                    for (int k = 1; k < i; ++k)
+                    {
+                        for (int l = 0; l < 18; l += 2)
+                        {
+                            tempGrid[l, k + 1] = fillGrid[l, k];
+                        }
+                    }
+                    for (int k = 1; k < i; ++k)
+                    {
+                        for (int l = 0; l < 10; l++)
+                        {
+                            fillGrid[l, k] = 0;
+                        }
+                    }
+                    for (int k = 0; k < 23; ++k)
+                        for (int l = 0; l < 18; l += 2)
+                            if (tempGrid[l, k] == 1)
+                                fillGrid[l, k] = 1;
+                }
+            }
+            ReDraw();
+        }
     }
 }

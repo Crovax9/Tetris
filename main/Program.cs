@@ -53,6 +53,7 @@ namespace Tetris
                     poly.AutoDrop();
                     dropTime = 0;
                     dropTimer.Restart();
+                    poly.BlockClear();
                 }
             } //end Update
         }
